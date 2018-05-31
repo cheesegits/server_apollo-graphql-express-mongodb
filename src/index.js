@@ -7,7 +7,7 @@ import {
 import mongoose from "mongoose";
 
 import schema from "./data/schema";
-import Player from "./data/model";
+import User from "./data/model";
 
 const app = express();
 
@@ -16,9 +16,10 @@ mongoose.connect("mongodb://localhost/botbchess-test");
 app.use("/graphql", bodyParser.json(), graphqlExpress({
     schema,
     context: {
-        Player
+        User
     }
 }));
+
 app.use("/graphiql", graphiqlExpress({
     endpointURL: "/graphql"
 }));

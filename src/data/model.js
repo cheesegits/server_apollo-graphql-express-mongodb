@@ -7,10 +7,10 @@ const {
     Schema
 } = mongoose;
 
-const playerSchema = new Schema({
+const userSchema = new Schema({
     username: String
 });
 
-const Player = mongoose.model("Player", playerSchema);
+const User = mongoose.model("User", userSchema);
 
-export default Player;
+export default User;

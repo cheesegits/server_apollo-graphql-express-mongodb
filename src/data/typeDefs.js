@@ -1,17 +1,17 @@
 export default [`
     
-    type Player {
+    type User {
         _id: String
         username: String
     }
     
     type Query {
-        allPlayers: [Player]
+        allUsers: [User]
     }
     
     type Mutation {
-        deletePlayer(_id: String!): Player!
-        createPlayer(username: String!): Player!
-        updatePlayer(_id: String!, username: String!): Player!
+        deleteUser(_id: String!): User!
+        createUser(username: String!): User!
+        updateUser(_id: String!, username: String!): User!
     }
 `];

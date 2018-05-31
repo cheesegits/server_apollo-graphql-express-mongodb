@@ -9,14 +9,14 @@ import request from "supertest";
 const url = "http://localhost:4000";
 
 describe("GraphQL", function() {
-    let newPlayerId = "player _id is not saved";
-    it("A new player has been created", function(done) {
+    let newUserId = "User _id is not saved";
+    it("A new User has been created", function(done) {
         request(url)
             .post("/graphql")
             .send({
                 query: `
                 mutation {
-                    createPlayer(username: "bob") {
+                    createUser(username: "bob") {
                         _id
                         username
                     }
@@ -25,23 +25,23 @@ describe("GraphQL", function() {
             .expect(200)
             .end(function(err, res) {
                 if (err) throw err;
-                const newPlayer = res.body.data.createPlayer;
-                newPlayerId = newPlayer._id;
+                const newUser = res.body.data.createUser;
+                newUserId = newUser._id;
                 expect(res.body).to.have.property("data");
-                expect(res.body.data).to.have.property("createPlayer");
-                newPlayer.should.have.all.keys("_id", "username");
-                newPlayer._id.should.be.a("String");
-                newPlayer.should.have.property("username", "bob");
+                expect(res.body.data).to.have.property("createUser");
+                newUser.should.have.all.keys("_id", "username");
+                newUser._id.should.be.a("String");
+                newUser.should.have.property("username", "bob");
                 done();
             });
     });
-    it("Successfully update a Player", function(done) {
+    it("Successfully update a User", function(done) {
         request(url)
             .post("/graphql")
             .send({
                 query: `
                 mutation {
-                    updatePlayer(_id: "${newPlayerId}", username: "sara") {
+                    updateUser(_id: "${newUserId}", username: "sara") {
                         _id
                         username
                     }
@@ -50,22 +50,22 @@ describe("GraphQL", function() {
             .expect(200)
             .end(function(err, res) {
                 if (err) throw err;
-                const updatedPlayer = res.body.data.updatePlayer;
+                const updatedUser = res.body.data.updateUser;
                 expect(res.body).to.have.property("data");
-                expect(res.body.data).to.have.property("updatePlayer");
-                updatedPlayer.should.have.all.keys("_id", "username");
-                updatedPlayer._id.should.equal(newPlayerId);
-                updatedPlayer.should.have.property("username", "sara");
+                expect(res.body.data).to.have.property("updateUser");
+                updatedUser.should.have.all.keys("_id", "username");
+                updatedUser._id.should.equal(newUserId);
+                updatedUser.should.have.property("username", "sara");
                 done();
             });
     });
-    it("Successfully received an array of allPlayers", function(done) {
+    it("Successfully received an array of allUsers", function(done) {
         request(url)
             .post("/graphql")
             .send({
                 query: `
                 {
-                    allPlayers {
+                    allUsers {
                         _id
                         username
                     }
@@ -75,25 +75,25 @@ describe("GraphQL", function() {
             .end(function(err, res) {
                 if (err) throw err;
                 const {
-                    allPlayers
+                    allUsers
                 } = res.body.data;
                 expect(res.body).to.have.property("data");
-                expect(res.body.data).to.have.property("allPlayers");
-                expect(allPlayers).to.be.an("array");
-                allPlayers.forEach(function(player) {
-                    player.should.be.an("Object");
-                    player.should.have.all.keys("_id", "username");
+                expect(res.body.data).to.have.property("allUsers");
+                expect(allUsers).to.be.an("array");
+                allUsers.forEach(function(user) {
+                    user.should.be.an("Object");
+                    user.should.have.all.keys("_id", "username");
                 });
                 done();
             });
     });
-    it("Successfully deleted a Player", function(done) {
+    it("Successfully deleted a User", function(done) {
         request(url)
             .post("/graphql")
             .send({
                 query: `
                 mutation {
-                    deletePlayer(_id: "${newPlayerId}") {
+                    deleteUser(_id: "${newUserId}") {
                         _id
                         username
                     }
@@ -102,12 +102,12 @@ describe("GraphQL", function() {
             .expect(200)
             .end(function(err, res) {
                 if (err) throw err;
-                const deletedPlayer = res.body.data.deletePlayer;
+                const deletedUser = res.body.data.deleteUser;
                 expect(res.body).to.have.property("data");
-                expect(res.body.data).to.have.property("deletePlayer");
-                deletedPlayer.should.have.all.keys("_id", "username");
-                deletedPlayer._id.should.equal(newPlayerId);
-                deletedPlayer.should.have.property("username", "sara");
+                expect(res.body.data).to.have.property("deleteUser");
+                deletedUser.should.have.all.keys("_id", "username");
+                deletedUser._id.should.equal(newUserId);
+                deletedUser.should.have.property("username", "sara");
                 done();
             });
     });

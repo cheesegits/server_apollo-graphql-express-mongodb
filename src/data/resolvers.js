@@ -1,38 +1,38 @@
 export default {
     Query: {
-        allPlayers: async(parent, args, {
-            Player
+        allUsers: async(parent, args, {
+            User
         }) => {
-            const players = await Player.find();
-            return players.map((x) => {
-                const player = x;
-                player._id = player._id.toString();
-                return player;
+            const users = await User.find();
+            return users.map((x) => {
+                const user = x;
+                user._id = user._id.toString();
+                return user;
             });
         }
     },
     Mutation: {
-        createPlayer: async(parent, args, {
-            Player
+        createUser: async(parent, args, {
+            User
         }) => {
-            const player = await new Player(args).save();
-            player._id = player._id.toString();
-            return player;
+            const user = await new User(args).save();
+            user._id = user._id.toString();
+            return user;
         },
-        updatePlayer: async(parents, args, {
-            Player
+        updateUser: async(parents, args, {
+            User
         }) => {
-            const updatedPlayer = await Player.findById(args._id);
-            updatedPlayer.username = args.username;
-            updatedPlayer.save();
-            return updatedPlayer;
+            const updatedUser = await User.findById(args._id);
+            updatedUser.username = args.username;
+            updatedUser.save();
+            return updatedUser;
         },
-        deletePlayer: async(parent, args, {
-            Player
+        deleteUser: async(parent, args, {
+            User
         }) => {
-            const deletedPlayer = await Player.findByIdAndRemove(args._id);
-            deletedPlayer._id = deletedPlayer._id.toString();
-            return deletedPlayer;
+            const deletedUser = await User.findByIdAndRemove(args._id);
+            deletedUser._id = deletedUser._id.toString();
+            return deletedUser;
         }
     }
 };
